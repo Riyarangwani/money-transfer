@@ -43,3 +43,18 @@ export interface Transaction {
     status: string;
     createdOn: string;
 }
+
+// ── Reward Module ─────────────────────────────────────────────────────────────
+
+export interface RewardEntry {
+    id: number;
+    transactionId: string;
+    pointsEarned: number;
+    createdOn: string;
+}
+
+export interface RewardSummary {
+    accountId: number;
+    totalPoints: number;
+    history: RewardEntry[];
+}
