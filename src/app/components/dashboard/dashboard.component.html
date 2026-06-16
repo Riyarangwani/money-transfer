@@ -19,6 +19,18 @@
             </div>
         </div>
 
+        <!-- ── NEW: Reward Points Card ──────────────────────────────────── -->
+        <div class="rewards-card">
+            <div class="rewards-icon">🏆</div>
+            <div class="rewards-info">
+                <div class="rewards-label">Reward Points</div>
+                <div class="rewards-points">{{ totalRewardPoints }}</div>
+                <div class="rewards-sub">Earn 1 pt per ₹100 transferred</div>
+            </div>
+            <a routerLink="/rewards" class="btn-view-rewards">View History →</a>
+        </div>
+        <!-- ────────────────────────────────────────────────────────────── -->
+
         <div class="action-cards">
             <a routerLink="/transfer" class="action-card transfer-card">
                 <div class="action-icon">💸</div>
@@ -31,6 +43,14 @@
                 <h3>Transaction History</h3>
                 <p>View all your transactions</p>
             </a>
+
+            <!-- ── NEW: Rewards nav card ─────────────────────────────── -->
+            <a routerLink="/rewards" class="action-card rewards-nav-card">
+                <div class="action-icon">🎁</div>
+                <h3>My Rewards</h3>
+                <p>View your earned reward points</p>
+            </a>
+            <!-- ────────────────────────────────────────────────────── -->
         </div>
     </div>
 
