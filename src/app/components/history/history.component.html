@@ -1,8 +1,11 @@
-<div class="history-container">
-    <div class="history-card">
-        <div class="history-header">
-            <h1 class="title">Transaction History</h1>
-            <a routerLink="/dashboard" class="btn-back">← Back to Dashboard</a>
+<div class="page-shell">
+    <div class="page-card">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Transaction history</h1>
+                <p class="page-copy">Review all transfers and account activity in a clean audit-ready view.</p>
+            </div>
+            <a routerLink="/dashboard" class="btn-secondary btn-back">← Back to Dashboard</a>
         </div>
 
         <div class="loading" *ngIf="isLoading">
@@ -10,7 +13,7 @@
             <p>Loading transactions...</p>
         </div>
 
-        <div class="error-message" *ngIf="errorMessage">
+        <div class="status-message" *ngIf="errorMessage">
             {{ errorMessage }}
         </div>
 

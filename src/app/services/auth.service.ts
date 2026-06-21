@@ -29,6 +29,11 @@ export class AuthService {
         );
     }
 
+    setCurrentAccount(account: Account): void {
+        localStorage.setItem('currentAccount', JSON.stringify(account));
+        this.currentAccountSubject.next(account);
+    }
+
     logout(): void {
         localStorage.removeItem('currentAccount');
         localStorage.removeItem('credentials');

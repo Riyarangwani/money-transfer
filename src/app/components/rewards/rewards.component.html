@@ -1,69 +1,97 @@
 
-
-<div class="rewards-container">
-    <div class="rewards-card">
-
-        <div class="rewards-header">
-            <h1 class="title">My Rewards</h1>
-            <a routerLink="/dashboard" class="btn-back">← Back to Dashboard</a>
+<div class="page-shell">
+    <div class="page-card">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Rewards dashboard</h1>
+                <p class="page-copy">Track your accrued reward points and history from completed transfers.</p>
+            </div>
+            <a routerLink="/dashboard" class="btn-secondary btn-back">← Back to Dashboard</a>
         </div>
 
-        <!-- Loading -->
         <div class="loading" *ngIf="isLoading">
             <div class="spinner"></div>
             <p>Loading your rewards...</p>
         </div>
 
-        <!-- Error -->
-        <div class="error-message" *ngIf="errorMessage">
-            {{ errorMessage }}
-        </div>
+        <div class="status-message" *ngIf="errorMessage">{{ errorMessage }}</div>
 
-        <!-- Content -->
         <div *ngIf="!isLoading && !errorMessage && rewardSummary">
-
-            <!-- Total Points Banner -->
             <div class="points-banner">
-                <div class="points-icon">🏆</div>
+                <div class="points-icon">
+                    <span class="currency-mark">₹</span>
+                </div>
                 <div class="points-info">
-                    <div class="points-label">Total Reward Points</div>
+                    <div class="points-label">Total reward points</div>
                     <div class="points-value">{{ rewardSummary.totalPoints }}</div>
-                    <div class="points-sub">1 point earned per ₹100 transferred</div>
+                    <p class="points-sub">
+                        Each reward point is worth ₹1. Enter the number of points to redeem below.
+                    </p>
                 </div>
             </div>
 
-            <!-- History -->
-            <div class="history-section">
-                <h2 class="section-title">Reward History</h2>
+            <div class="redeem-card">
+                <div class="redeem-content">
+                    <div class="redeem-form">
+                        <label class="redeem-input-label" for="redeemPoints">Points to redeem</label>
+                        <div class="redeem-input-group">
+                            <input
+                                id="redeemPoints"
+                                type="number"
+                                min="1"
+                                [max]="rewardSummary.totalPoints"
+                                [value]="redeemPoints"
+                                (input)="onRedeemPointsChange($event)"
+                                placeholder="0"
+                            />
+                            <span class="redeem-unit">pts</span>
+                        </div>
+                        <div class="redeem-note">Up to {{ rewardSummary.totalPoints }} points available.</div>
+                    </div>
 
-                <!-- Empty state -->
+                    <div class="redeem-summary-card">
+                        <div class="redeem-summary-header">
+                            <span class="redeem-label">Redeem value</span>
+                            <strong class="redeem-value">₹{{ selectedRedeemValue | number:'1.0-0' }}</strong>
+                        </div>
+                        <button
+                            class="btn-primary btn-redeem"
+                            type="button"
+                            (click)="redeemRewards()"
+                            [disabled]="redeeming || rewardSummary.totalPoints === 0">
+                            {{ redeeming ? 'Redeeming...' : 'Redeem points' }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="validationMessage" class="validation-message">{{ validationMessage }}</div>
+            <div *ngIf="redemptionMessage" class="redemption-message">{{ redemptionMessage }}</div>
+
+            <div class="history-section">
+                <h2 class="section-title">Reward history</h2>
+
                 <div class="empty-state" *ngIf="rewardSummary.history.length === 0">
                     <div class="empty-icon">🎯</div>
                     <h3>No rewards yet</h3>
-                    <p>Transfer more than ₹100 to start earning points</p>
-                    <a routerLink="/transfer" class="btn-transfer">Make a Transfer</a>
+                    <p>Complete transfers to start earning loyalty points.</p>
+                    <a routerLink="/transfer" class="btn-secondary btn-transfer">Make a transfer</a>
                 </div>
 
-                <!-- Reward entries table -->
                 <div class="reward-table" *ngIf="rewardSummary.history.length > 0">
                     <div class="table-header">
                         <div class="col-date">Date</div>
-                        <div class="col-txn">Transaction ID</div>
-                        <div class="col-points">Points Earned</div>
+                        <div class="col-txn">Transaction</div>
+                        <div class="col-points">Points</div>
                     </div>
 
                     <div class="reward-row" *ngFor="let entry of rewardSummary.history">
                         <div class="col-date">{{ entry.createdOn | date:'medium' }}</div>
-                        <div class="col-txn">
-                            <span class="txn-id">{{ entry.transactionId | slice:0:16 }}…</span>
-                        </div>
-                        <div class="col-points">
-                            <span class="points-badge">+{{ entry.pointsEarned }} pts</span>
-                        </div>
+                        <div class="col-txn"><span class="txn-id">{{ entry.transactionId | slice:0:16 }}…</span></div>
+                        <div class="col-points"><span class="points-badge">+{{ entry.pointsEarned }} pts</span></div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

@@ -1,35 +1,67 @@
-<div class="create-account-container">
-    <div class="create-account-card">
-        <h1 class="title">Create New Account</h1>
-        <p class="subtitle">Join our Money Transfer System</p>
+﻿<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-brand">
+            <div class="brand-mark" aria-hidden="true">A</div>
+            <div>
+                <span class="brand-label">Enterprise Banking</span>
+                <h1 class="auth-heading">Open a new account</h1>
+            </div>
+        </div>
 
-        <form (ngSubmit)="createAccount()" class="create-account-form">
+        <p class="auth-copy">Create your enterprise account to begin secure transfers and gain access to reward tracking.</p>
+
+        <form (ngSubmit)="createAccount()" class="auth-form">
             <div class="form-group">
                 <label for="username">Username *</label>
-                <input type="text" id="username" [(ngModel)]="username" name="username"
-                    placeholder="Choose a unique username" required />
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    [(ngModel)]="username"
+                    placeholder="Choose a unique username"
+                    required
+                />
             </div>
 
             <div class="form-group">
                 <label for="password">Password *</label>
-                <input type="password" id="password" [(ngModel)]="password" name="password"
-                    placeholder="Choose a strong password" required />
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    [(ngModel)]="password"
+                    placeholder="Create a strong password"
+                    required
+                />
             </div>
 
             <div class="form-group">
-                <label for="holderName">Full Name *</label>
-                <input type="text" id="holderName" [(ngModel)]="holderName" name="holderName"
-                    placeholder="Enter your full name" required />
+                <label for="holderName">Full name *</label>
+                <input
+                    type="text"
+                    id="holderName"
+                    name="holderName"
+                    [(ngModel)]="holderName"
+                    placeholder="Enter your full name"
+                    required
+                />
             </div>
 
             <div class="form-group">
-                <label for="initialBalance">Initial Balance</label>
-                <input type="number" id="initialBalance" [(ngModel)]="initialBalance" name="initialBalance"
-                    placeholder="Enter initial balance" min="0" step="0.01" pattern="^\d*\.?\d{0,2}$"
-                    inputmode="decimal" />
+                <label for="initialBalance">Initial balance</label>
+                <input
+                    type="number"
+                    id="initialBalance"
+                    name="initialBalance"
+                    [(ngModel)]="initialBalance"
+                    placeholder="Enter initial balance"
+                    min="0"
+                    step="0.01"
+                    inputmode="decimal"
+                />
             </div>
 
-            <div class="error-message" *ngIf="errorMessage">
+            <div class="status-message" *ngIf="errorMessage">
                 {{ errorMessage }}
             </div>
 
@@ -38,13 +70,13 @@
             </div>
 
             <button type="submit" class="btn-primary" [disabled]="isLoading">
-                {{ isLoading ? 'Creating Account...' : 'Create Account' }}
+                {{ isLoading ? 'Creating account...' : 'Create account' }}
             </button>
         </form>
 
-        <div class="login-section">
-            <p>Already have an account?</p>
-            <a routerLink="/login" class="btn-secondary">Login Here</a>
+        <div class="auth-footer">
+            <p>Already registered?</p>
+            <a routerLink="/login" class="btn-secondary">Sign in</a>
         </div>
     </div>
 </div>

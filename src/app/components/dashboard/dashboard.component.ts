@@ -16,13 +16,14 @@ import { Account } from '../../models/models';
 export class DashboardComponent implements OnInit {
     account: Account | null = null;
     balance: number = 0;
-    totalRewardPoints: number = 0;                                     // ← NEW
+    totalRewardPoints: number = 0;
     isLoading = true;
+    showProfileDetails = false;
 
     constructor(
         private authService: AuthService,
         private accountService: AccountService,
-        private rewardService: RewardService,                          // ← NEW
+        private rewardService: RewardService,
         private router: Router
     ) { }
 
@@ -46,22 +47,26 @@ export class DashboardComponent implements OnInit {
                 }
             });
 
-            // ── NEW: load reward points ──────────────────────────────────────
             this.rewardService.getRewardSummary(accountId).subscribe({
                 next: (summary) => {
                     this.totalRewardPoints = summary.totalPoints;
                 },
                 error: () => {
-                    // Non-critical — dashboard still works without points
                     this.totalRewardPoints = 0;
                 }
             });
-            // ────────────────────────────────────────────────────────────────
         }
+    }
+
+    toggleProfileDetails(): void {
+        this.showProfileDetails = !this.showProfileDetails;
     }
 
     logout(): void {
         this.authService.logout();
         this.router.navigate(['/login']);
     }
+    get firstName(): string {
+    return this.account?.holderName?.split(' ')[0] ?? '';
+}
 }

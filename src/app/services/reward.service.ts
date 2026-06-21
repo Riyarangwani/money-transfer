@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RewardSummary } from '../models/models';
+import { RewardRedemptionRequest, RewardRedemptionResponse, RewardSummary } from '../models/models';
 
 @Injectable({
     providedIn: 'root'
@@ -13,5 +13,10 @@ export class RewardService {
 
     getRewardSummary(accountId: number): Observable<RewardSummary> {
         return this.http.get<RewardSummary>(`${this.apiUrl}/${accountId}`);
+    }
+
+    redeemRewards(accountId: number, points: number): Observable<RewardRedemptionResponse> {
+        const payload: RewardRedemptionRequest = { points };
+        return this.http.post<RewardRedemptionResponse>(`${this.apiUrl}/${accountId}/redeem`, payload);
     }
 }

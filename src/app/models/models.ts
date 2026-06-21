@@ -58,3 +58,14 @@ export interface RewardSummary {
     totalPoints: number;
     history: RewardEntry[];
 }
+
+export interface RewardRedemptionRequest {
+    points: number;
+}
+
+export interface RewardRedemptionResponse {
+    accountId: number;
+    redeemedAmount: number;
+    remainingPoints: number;
+    newBalance: number;
+}
