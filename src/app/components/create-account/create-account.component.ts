@@ -26,9 +26,14 @@ export class CreateAccountComponent {
         private router: Router
     ) { }
 
-    createAccount(): void {
+    async createAccount(): Promise<void> {
         if (!this.username || !this.password || !this.holderName) {
             this.errorMessage = 'Please fill in all required fields';
+            return;
+        }
+
+        if (!this.validatePassword(this.password)) {
+            this.errorMessage = 'Password must be at least 8 characters long, alphanumeric, and contain at least one special character';
             return;
         }
 
@@ -41,9 +46,11 @@ export class CreateAccountComponent {
         this.errorMessage = '';
         this.successMessage = '';
 
+        const hashedPassword = await this.sha256(this.password);
+
         const request: CreateAccountRequest = {
             username: this.username,
-            password: this.password,
+            password: hashedPassword,
             holderName: this.holderName,
             initialBalance: this.initialBalance
         };
@@ -61,5 +68,20 @@ export class CreateAccountComponent {
                 this.errorMessage = error.error?.message || 'Failed to create account. Username might already exist.';
             }
         });
+    }
+
+    private validatePassword(password: string): boolean {
+        const hasMinLength = password.length >= 8;
+        const hasLetter = /[a-zA-Z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>_+\-=\[\]\\\/]/.test(password);
+        return hasMinLength && hasLetter && hasNumber && hasSpecialChar;
+    }
+
+    private async sha256(message: string): Promise<string> {
+        const msgBuffer = new TextEncoder().encode(message);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 }
